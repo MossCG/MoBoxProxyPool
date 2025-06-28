@@ -5,7 +5,7 @@ import org.mossmc.mosscg.MossLib.Object.ObjectConfig;
 import org.mossmc.mosscg.MossLib.Object.ObjectLogger;
 
 public class BasicInfo {
-    public static String version = "V1.1.1.1.2312";
+    public static String version = "V1.1.1.2.0815";
     public static String author = "MossCG";
 
     public static ObjectLogger logger;
