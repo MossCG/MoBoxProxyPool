@@ -6,6 +6,7 @@ import org.moboxlab.MoBoxProxyPool.Command.CommandExit;
 import org.moboxlab.MoBoxProxyPool.Command.CommandReload;
 import org.moboxlab.MoBoxProxyPool.Command.CommandStatus;
 import org.moboxlab.MoBoxProxyPool.Request.AliyunSDK;
+import org.moboxlab.MoBoxProxyPool.Tick.TickDeploy;
 import org.moboxlab.MoBoxProxyPool.Tick.TickMain;
 import org.moboxlab.MoBoxProxyPool.Web.WebMain;
 import org.mossmc.mosscg.MossLib.Command.CommandManager;
@@ -53,6 +54,7 @@ public class Main {
         logger.sendInfo("正在初始化Tick模块......");
         CacheECS.updateAmount(BasicInfo.config.getInteger("IPAmount"));
         TickMain.runTick();
+        TickDeploy.runTick();
 
         //Http服务初始化
         logger.sendInfo("正在初始化Web模块......");

@@ -1,0 +1,9 @@
+yum install openssl -y
+yum install squid -y
+yum install net-tools -y
+yum install httpd-tools -y
+touch /etc/squid/passwd && chown squid /etc/squid/passwd
+htpasswd /etc/squid/passwd <user> <password>
+sudo systemctl stop firewalld
+//改配置文件
+systemctl start squid

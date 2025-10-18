@@ -6,7 +6,6 @@ import org.moboxlab.MoBoxProxyPool.BasicInfo;
 import org.moboxlab.MoBoxProxyPool.Cache.CacheECS;
 import org.moboxlab.MoBoxProxyPool.Cache.CacheLoad;
 import org.moboxlab.MoBoxProxyPool.Request.*;
-import org.moboxlab.MoBoxProxyPool.SSH.SSHMain;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -48,13 +47,6 @@ public class TickMain {
                         if (ip.size() != 0) CacheECS.ecsMap.get(instanceID).IP = ip.getString(0);
                         //根据状态，进行对应操作
                         switch (CacheECS.ecsMap.get(instanceID).status) {
-                            case CREATED:
-                                //已创建状态，部署脚本
-                                SSHMain.asyncInit(CacheECS.ecsMap.get(instanceID));
-                                break;
-                            case INSTALLING:
-                                //部署中状态，不再重新部署
-                                break;
                             case RUNNING:
                                 //运行中状态
                                 boolean timeCheck = CacheECS.ecsMap.get(instanceID).timeCheck();
@@ -77,7 +69,6 @@ public class TickMain {
                     BasicInfo.logger.sendInfo("缺少数量："+remain);
                     for (int i = 0; i < remain; i++) {
                         asyncCreate();
-                        Thread.sleep(800L);
                     }
                 }
             } catch (Exception e) {
@@ -87,7 +78,7 @@ public class TickMain {
             long end = System.currentTimeMillis();
             mspt = end-start;
             try {
-                Thread.sleep(20000L);
+                Thread.sleep(10000L);
             } catch (Exception e) {
                 BasicInfo.logger.sendWarn("执行Tick等待时出现错误！");
             }
