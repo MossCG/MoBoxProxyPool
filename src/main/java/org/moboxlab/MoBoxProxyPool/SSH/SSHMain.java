@@ -41,6 +41,8 @@ public class SSHMain {
             execCommand(session,"htpasswd -b -c /etc/squid/passwd "+ecs.proxyAccount+" "+ecs.proxyPassword);
             execCommand(session,"sudo systemctl stop firewalld");
             uploadFile(session,"/etc/squid/","squid.conf","./MBProxyPool/squid.conf");
+            execCommand(session,"rm /etc/hosts -f");
+            uploadFile(session,"/etc/","hosts","./MBProxyPool/hosts");
             execCommand(session,"systemctl start squid");
             execCommand(session, "mkdir /mbpp");
             ecs.status = BasicInfo.ECSStatus.RUNNING;

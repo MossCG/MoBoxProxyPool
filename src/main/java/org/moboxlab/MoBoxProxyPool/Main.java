@@ -20,6 +20,7 @@ public class Main {
         long startTime = System.currentTimeMillis();
         FileCheck.checkDirExist("./MBProxyPool");
         FileCheck.checkFileExist("./MBProxyPool/squid.conf","squid.conf");
+        FileCheck.checkFileExist("./MBProxyPool/hosts","hosts");
         ObjectLogger logger = new ObjectLogger("./MBProxyPool/logs");
         BasicInfo.logger = logger;
 

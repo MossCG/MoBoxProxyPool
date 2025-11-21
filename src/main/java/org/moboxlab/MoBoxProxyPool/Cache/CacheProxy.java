@@ -13,7 +13,8 @@ public class CacheProxy {
         try {
             //建立初始可用池
             List<String> pool = getAvailablePool();
-            if (pool.size() == 0) return null;
+            //初始可用池空则返回无
+            //if (pool.size() == 0) return null;
             //session检查
             pool = getSessionFreePool(pool,sessionID);
             //可用池直接分配
