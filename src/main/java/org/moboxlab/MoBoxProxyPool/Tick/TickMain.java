@@ -44,7 +44,7 @@ public class TickMain {
                         //有数据则ECS存活
                         JSONArray ip = info.getJSONObject("PublicIpAddress").getJSONArray("IpAddress");
                         CacheECS.ecsMap.get(instanceID).setCreateTime(info.getString("CreationTime"));
-                        if (ip.size() != 0) CacheECS.ecsMap.get(instanceID).IP = ip.getString(0);
+                        if (!ip.isEmpty()) CacheECS.ecsMap.get(instanceID).IP = ip.getString(0);
                         //根据状态，进行对应操作
                         switch (CacheECS.ecsMap.get(instanceID).status) {
                             case RUNNING:
@@ -55,7 +55,7 @@ public class TickMain {
                                 break;
                             case CYCLING:
                                 //即将回收状态
-                                releaseECS(instanceID);
+                                asyncRelease(instanceID);
                                 break;
                             default:
                                 break;
@@ -67,9 +67,12 @@ public class TickMain {
                 if (remain > 0) {
                     BasicInfo.logger.sendInfo("检测到IP数量不足，正在自动新建ECS......");
                     BasicInfo.logger.sendInfo("缺少数量："+remain);
+                    if (remain > 200) remain = 200;
+                    BasicInfo.logger.sendInfo("创建数量："+remain);
                     for (int i = 0; i < remain; i++) {
                         asyncCreate();
                     }
+                    if (remain == 200) Thread.sleep(51000L);
                 }
             } catch (Exception e) {
                 BasicInfo.logger.sendException(e);
@@ -105,6 +108,11 @@ public class TickMain {
             BasicInfo.logger.sendException(e);
             BasicInfo.logger.sendWarn("创建实例时出现错误！");
         }
+    }
+
+    public static void asyncRelease(String instanceID) {
+        Thread thread = new Thread(() -> releaseECS(instanceID));
+        thread.start();
     }
 
     public static void releaseECS(String instanceID) {
